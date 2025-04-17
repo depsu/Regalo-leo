@@ -172,7 +172,7 @@ h1 {
 
     <audio id="final-sound" src="https://depsu.github.io/Regalo-leo/Homero%20gimiendo.mp3"></audio>
 
-
+    <audio id="move-sound" src=""></audio>
 
 
 
@@ -235,60 +235,58 @@ function moveButtonSequence() {
 
 // Event listener para el botón principal
 button.addEventListener('click', () => {
-    if (isMoving) return;
-    if (count <= 0) return;
+    if (isMoving) return; // No hacer nada si se está moviendo
+    if (count <= 0) return; // No hacer nada si ya terminó
 
+    // --- ESTE ES EL CLICK ANTES DEL ÚLTIMO ---
     if (count === 1 && !movementHasHappened) {
         movementHasHappened = true;
-        moveButtonSequence();
-        return;
+        moveButtonSequence(); // Inicia el movimiento
+        return; // IMPORTANTE: No sigue, espera al siguiente click
     }
 
+    // Decrementa el contador (esto pasa en el click final)
     count--;
 
     if (count > 0) {
+        // Actualiza botón y cambia imagen (si aplica)
         button.textContent = `Clicks restantes: ${count}`;
-
-        // --- Lógica restaurada para cambiar la imagen cada 10 clicks ---
-        // Verifica que la variable 'images' esté definida y tenga elementos
         if (typeof images !== 'undefined' && images.length > 0) {
-            // Calcula el índice basado en cuántos grupos de 10 clicks han pasado
-            // (70-count) nos da cuántos clicks se han hecho. Dividimos por 10.
             let imgIndex = Math.floor((70 - count) / 10);
-
-            // Asegura que el índice esté dentro de los límites del array
             imgIndex = Math.max(0, Math.min(imgIndex, images.length - 1));
-
-            // Asigna la imagen si el índice es válido y la imagen existe en esa posición
-            if (img && images[imgIndex]) { // Verifica también que 'img' exista
+            if (img && images[imgIndex]) {
                 img.src = images[imgIndex];
-                img.style.display = 'block'; // Asegura que sea visible si estaba oculta
+                img.style.display = 'block';
             }
         }
-        // --- Fin de la lógica de imagen ---
-
     }
+    // --- ESTE BLOQUE SE EJECUTA EN EL ÚLTIMO CLICK (cuando count llega a 0) ---
     else if (count === 0) {
         console.log("Último click registrado!");
 
+         // Detener sonido de movimiento si está sonando
          if (moveSound.src && moveSound.src !== window.location.href && !moveSound.paused) {
             moveSound.pause();
             moveSound.currentTime = 0;
         }
+        // Sonido final
         finalSound.play().catch(e => console.error("Error al reproducir sonido final:", e));
 
+        // Mostrar todo lo final
         gifContainer.style.display = 'block';
         finalImage.style.display = 'block';
         secret.style.display = 'block';
 
+        // Poner el texto secreto
         secret.textContent =
             'Fantasy Love | FT9CM-HAGD4-TN7KY , Furry BDSM | 8RBYC-JKR96-PTGGV , ' +
             'Furry Toys | 2VTK4-XWPTG-CVT8L , Furr ilfs | KGEEJ-HP727-ZRIA6 , ' +
             'Furry Orgasm | GY7Z3-8RLPV-I0BZC';
 
-        button.textContent = '完成！'; // Completado!
+        // Cambiar texto del botón
+        button.textContent = 'お誕生日おめでとう'; // "Feliz cumpleaños" en japonés
 
-        // Ocultar la imagen cambiante al final (como en el original)
+        // Ocultar imagen cambiante
         if (img) {
              img.style.display = 'none';
         }
