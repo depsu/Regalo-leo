@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Contador de Clicks</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #main-btn {
+      font-size: 24px;
+      padding: 15px 30px;
+      cursor: pointer;
+    }
+    #secret {
+      margin-top: 20px;
+      font-size: 18px;
+      color: purple;
+      display: none;
+    }
+    #main-img {
+      margin-top: 30px;
+      width: 300px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="main-btn">Clicks restantes: 100</button>
+  <p id="secret"></p>
+  <img id="main-img" src="img1.jpg" alt="Imagen relacionada">
+
+  <!-- Audios -->
+  <audio id="click-sound" src="click.mp3"></audio>
+  <audio id="final-sound" src="final.mp3"></audio>
+
+  <script>
+    let count = 100;
+    const button = document.getElementById('main-btn');
+    const secret = document.getElementById('secret');
+    const img = document.getElementById('main-img');
+    const clickSound = document.getElementById('click-sound');
+    const finalSound = document.getElementById('final-sound');
+
+    const images = [
+      'img1.jpg',
+      'img2.jpg',
+      'img3.jpg',
+      'img4.jpg',
+      'img5.jpg',
+      'img6.jpg',
+      'img7.jpg',
+      'img8.jpg',
+      'img9.jpg',
+      'img10.jpg'
+    ];
+
+    button.addEventListener('click', () => {
+      if (count <= 0) return;
+
+      count--;
+      button.textContent = `Clicks restantes: ${count}`;
+
+      // Reproducir sonido
+      if (count === 0) {
+        finalSound.play();
+        secret.style.display = 'block';
+        secret.textContent =
+          'Fantasy Love | FT9CM-HAGD4-TN7KY , Furry BDSM | 8RBYC-JKR96-PTGGV , ' +
+          'Furry Toys | 2VTK4-XWPTG-CVT8L , Furr ilfs | KGEEJ-HP727-ZRIA6 , ' +
+          'Furry Orgasm | GY7Z3-8RLPV-I0BZC';
+      } else {
+        clickSound.currentTime = 0;
+        clickSound.play();
+      }
+
+      // Cambiar imagen cada 10 clics
+      let imgIndex = Math.floor((100 - count) / 10);
+      if (imgIndex < images.length) {
+        img.src = images[imgIndex];
+      }
+    });
+  </script>
+
+</body>
+</html>
